@@ -94,6 +94,8 @@
                     </div>
                 </div>
             </div>
+            <p>work hours</p>
+            <p>edit work hours</p>
         </div>
     </div>
     
