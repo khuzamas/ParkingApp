@@ -2,6 +2,7 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="3; URL='OptionsPage.php'"/>
   <title> Praking Finder </title>
   <link rel='stylesheet' href="Fpage.css">
   <!-- <link rel="stylesheet" href="./style.css"> -->
@@ -12,7 +13,6 @@
         padding: 0;
         font-family: "Noto Sans", sans-serif;
     }
-
     .hero {
         display: grid;
         position: relative;

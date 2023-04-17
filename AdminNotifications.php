@@ -1,3 +1,5 @@
+<!-- Variables -->
+<!-- 1. Wrong parkings list -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -66,10 +68,12 @@
     <!-- Notifications -->
     <div class="row">
         <div class="col">
+            <!-- TODO: Add php -> loop through list of wrong parkings -->
             <div class="card">
                 <div class="card-border-top"></div>
                 <div class="group">
                     <div class="heading">
+                        <!-- TODO: Add php -> get information -->
                         <span>Slot number</span>
                     </div>
                     <div class="heading">

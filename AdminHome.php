@@ -1,3 +1,9 @@
+<!-- Variables -->
+<!-- 
+1. Parkings
+2. Total Parkings #
+3. Occupied Parkings #
+4. Available= total-occupied -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -133,18 +139,6 @@
     <!-- Nav Bar -->
     <?php include "AdminNavBar.html"?>
     <div class="main row">
-        <!-- <div class="col a"> -->
-            <!-- Location -->
-            <!-- <div class="location">
-                <a><img src="images/icon-location.png"/>Location</a>
-            </div> -->
-            <!-- Lengend -->
-            <!-- <div class="legend">
-                <a><img src="images/icon-car-small-green.png"/>Available</a>
-                <a><img src="images/icon-car-small-red.png"/>Occupied</a>
-                <a><img src="images/icon-car-small-black.png"/>Wrong Parking</a>
-            </div>
-        </div> -->
         <div class="col">
             <!-- Parking Slots -->
             <div class="parking">
@@ -163,6 +157,7 @@
                                 <img src="images/icon-car-large-green.png">
                             </div>
                             <div class="side back">
+                                <!-- TODO: Add php -> get Id/Status/Time -->
                                 <div>
                                     <p>Parking Id</p>
                                 </div>
@@ -193,6 +188,7 @@
             <div class="card mb-3">
                 <div class="widget-content-wrapper text-white">
                     <div class="widget-content-left">
+                        <!-- TODO: Add php -> get information -->
                         <div class="widget-heading">Total Parkings</div>
                         <div class="widget-subheading">Number of slots</div>
                     </div>
@@ -206,6 +202,7 @@
             <div class="card mb-3">
                 <div class="widget-content-wrapper text-white">
                     <div class="widget-content-left">
+                        <!-- TODO: Add php -> get information -->
                         <div class="widget-heading">Avaialble Parkings</div>
                         <div class="widget-subheading">Number of free slots</div>
                     </div>
@@ -219,6 +216,7 @@
             <div class="card mb-3">
                 <div class="widget-content-wrapper text-white">
                     <div class="widget-content-left">
+                        <!-- TODO: Add php -> get information -->
                         <div class="widget-heading">Occupied Parkings</div>
                         <div class="widget-subheading">Number of occupied slots</div>
                     </div>
@@ -242,10 +240,6 @@
                 </div>
             </div>
         </div>
-    </div>
-        
-
-        
-    
+    </div>  
 </body>
 </html>

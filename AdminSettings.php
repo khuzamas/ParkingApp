@@ -93,6 +93,7 @@
         <div class="col">
             <div class="card">
                 <div class="widget-content-wrapper text-white">
+                        <!-- TODO: Add php -> function to clear data -->
                         <div class="widget-heading">Clear All Slots</div>
                         <div class="widget-subheading">Reset the data of all slots to: available parking</div>
                     <div class="text-center" style="margin-top: 10px;"><button class="profile-button" type="button">Submit</button></div>

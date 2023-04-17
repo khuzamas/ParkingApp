@@ -1,3 +1,5 @@
+<!-- Variables -->
+<!-- 1. User -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,6 +74,7 @@
             </div>
             <!-- Information -->
             <div class="col-md-5 border-right">
+                <!-- TODO: Add php -> get information -->
                 <div class="p-3 py-5">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h4 class="text-right">Profile Information</h4>
