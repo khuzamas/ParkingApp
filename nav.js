@@ -56,9 +56,6 @@ jQuery(document).ready(function($){
 	target.parent().addClass('active');
 });
 
-
-
-
 // Add active class on another page linked
 // ==========================================
 $(window).on('load',function () {
@@ -76,3 +73,29 @@ $(window).on('load',function () {
         }
     })
 });
+
+//User Page: Toggle between show/hide of UserHome/UserInfo
+// ==============================================
+function UserFunction() {
+	var x = document.getElementById("userHome");
+	var xx = document.getElementById("userInfo");
+	if (x.style.display === "none") {
+	  x.style.display = "block";
+	  xx.style.display= "none";
+	} else {
+	  x.style.display = "none";
+	  xx.style.display= "block";
+	}
+}
+function userHome() {
+	var x = document.getElementById("userHome");
+	var xx = document.getElementById("userInfo");
+	x.style.display = "block";
+	xx.style.display= "none";
+}
+function userInfo() {
+	var x = document.getElementById("userHome");
+	var xx = document.getElementById("userInfo");
+	x.style.display = "none";
+	xx.style.display= "block";
+}
