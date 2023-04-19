@@ -1,9 +1,58 @@
 <!-- Variables -->
 <!-- 
-1. Parkings
+1. Parkings (class)
 2. Total Parkings #
 3. Occupied Parkings #
-4. Available= total-occupied -->
+4. Available= total-occupied 
+5. Location
+-->
+<?php
+
+    $location= "Prince Mohammed Bin Fahd University"; #Get from parking lot?
+
+    //parking slot class
+    class ParkingSlot {
+        public $slot_id;
+        public $slot_status;
+        public $slot_wrong;
+        public function __construct($slot_id, $slot_status, $slot_wrong) {
+            $this->slot_id= $slot_id;
+            $this->slot_status= $slot_status;
+            $this->slot_wrong= $slot_wrong;
+        }
+    }
+
+    $slot1= new ParkingSlot(1, "Available", false);
+    $slot2= new ParkingSlot(2, "Available", false);
+    $slot3= new ParkingSlot(3, "Wrong", false);
+    $slot4= new ParkingSlot(4, "Occupied", false);
+
+    $slots= array($slot1, $slot2, $slot3, $slot4);
+    $total_slots= count($slots);
+    $number_of_occupied_slots= 0;
+
+    //get occupied slots number 
+    foreach($slots as $slot) {
+        if ($slot->slot_status=="Occupied" || $slot->slot_status=="Wrong") {
+            $number_of_occupied_slots= ++$number_of_occupied_slots;
+        }
+    }
+
+    //get image src corrosponding to the status
+    function getSlotImage($slot) {
+        if ($slot->slot_status=="Available") {
+            return "images/icon-car-large-green.png";
+        } else if ($slot->slot_status=="Occupied"){
+            return "images/icon-car-large-red.png";
+        } else {
+            return "images/icon-car-large-black.png";
+        }
+    }
+
+    //sending the slots array to other pages
+    $_SESSION['slots']= $slots;
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -154,22 +203,22 @@
                     <tr>
                         <td class="slot">
                             <div class="side front">
-                                <img src="images/icon-car-large-green.png">
+                                <img src="<?php echo getSlotImage($slots[0])?>">
                             </div>
                             <div class="side back">
                                 <!-- TODO: Add php -> get Id/Status/Time -->
                                 <div>
-                                    <p>Parking Id</p>
+                                    <p>ID: <?php echo $slots[0]->slot_id?></p>
                                 </div>
-                                <p>Status</p>
+                                <p><?php echo $slots[0]->slot_status?></p>
                                 <p>Time</p>
                             </div>
                         </td>
-                        <td><img src="images/icon-car-large-green.png"></td>
+                        <td><img src="<?php echo getSlotImage($slots[1])?>"></td>
                     </tr>
                     <tr>
-                        <td><img src="images/icon-car-large-green.png"></td>
-                        <td><img src="images/icon-car-large-green.png"></td>
+                        <td><img src="<?php echo getSlotImage($slots[2])?>"></td>
+                        <td><img src="<?php echo getSlotImage($slots[3])?>"></td>
                     </tr>
                     <tr class="street">
                         <td></td>
@@ -188,13 +237,12 @@
             <div class="card mb-3">
                 <div class="widget-content-wrapper text-white">
                     <div class="widget-content-left">
-                        <!-- TODO: Add php -> get information -->
                         <div class="widget-heading">Total Parkings</div>
                         <div class="widget-subheading">Number of slots</div>
                     </div>
                     <div class="widget-content-right">
                         <div class="widget-numbers text-white">
-                            <span>4</span>
+                            <span><?php echo $total_slots?></span>
                         </div>
                     </div>
                 </div>
@@ -202,13 +250,12 @@
             <div class="card mb-3">
                 <div class="widget-content-wrapper text-white">
                     <div class="widget-content-left">
-                        <!-- TODO: Add php -> get information -->
                         <div class="widget-heading">Avaialble Parkings</div>
                         <div class="widget-subheading">Number of free slots</div>
                     </div>
                     <div class="widget-content-right">
                         <div class="widget-numbers text-white">
-                            <span>4</span>
+                            <span><?php echo $total_slots-$number_of_occupied_slots?></span>
                         </div>
                     </div>
                 </div>
@@ -216,13 +263,12 @@
             <div class="card mb-3">
                 <div class="widget-content-wrapper text-white">
                     <div class="widget-content-left">
-                        <!-- TODO: Add php -> get information -->
                         <div class="widget-heading">Occupied Parkings</div>
                         <div class="widget-subheading">Number of occupied slots</div>
                     </div>
                     <div class="widget-content-right">
                         <div class="widget-numbers text-white">
-                            <span>4</span>
+                            <span><?php echo $number_of_occupied_slots?></span>
                         </div>
                     </div>
                 </div>
@@ -230,7 +276,7 @@
             <div class="col a">
                 <!-- Location -->
                 <div class="location">
-                    <a><img src="images/icon-location.png"/>Location</a>
+                    <a><img src="images/icon-location.png"/><?php echo $location?></a>
                 </div>
                 <!-- Lengend -->
                 <div class="legend">

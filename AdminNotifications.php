@@ -1,5 +1,32 @@
 <!-- Variables -->
 <!-- 1. Wrong parkings list -->
+<?php 
+    //parking slot class
+    class ParkingSlot {
+        public $slot_id;
+        public $slot_status;
+        public $slot_wrong;
+        public function __construct($slot_id, $slot_status, $slot_wrong) {
+            $this->slot_id= $slot_id;
+            $this->slot_status= $slot_status;
+            $this->slot_wrong= $slot_wrong;
+        }
+    }
+
+    $slot1= new ParkingSlot(1, "Available", false);
+    $slot2= new ParkingSlot(2, "Available", false);
+    $slot3= new ParkingSlot(3, "Wrong", false);
+    $slot4= new ParkingSlot(4, "Occupied", false);
+
+    $slots= array($slot1, $slot2, $slot3, $slot4);
+    $wrong_slots= array();
+
+    foreach($slots as $slot) {
+        if ($slot->slot_status=="Wrong") {
+            array_push($wrong_slots, $slot);
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,6 +94,7 @@
     <?php include "AdminNavBar.html"?>
     <!-- Notifications -->
     <div class="row">
+        <?php foreach($wrong_slots as $slot):?>
         <div class="col">
             <!-- TODO: Add php -> loop through list of wrong parkings -->
             <div class="card">
@@ -75,6 +103,7 @@
                     <div class="heading">
                         <!-- TODO: Add php -> get information -->
                         <span>Slot number</span>
+                        <?php echo $slot->slot_id?>
                     </div>
                     <div class="heading">
                         <span>Time recoreded</span> 
@@ -83,6 +112,7 @@
                 <div class="text-center" style="margin-bottom: 10px;"><button class="profile-button" type="button">Edit Slot</button></div>
             </div>
         </div>
+        <?php endforeach; ?>
     </div>
 </body>
 </html>
