@@ -1,31 +1,38 @@
+<?php session_start();?>
 <!-- Variables -->
 <!-- 1. Wrong parkings list -->
 <?php 
-    //parking slot class
-    class ParkingSlot {
+
+    //Notifications Class
+    class Notification {
         public $slot_id;
-        public $slot_status;
-        public $slot_wrong;
-        public function __construct($slot_id, $slot_status, $slot_wrong) {
+        public function __construct($slot_id) {
             $this->slot_id= $slot_id;
-            $this->slot_status= $slot_status;
-            $this->slot_wrong= $slot_wrong;
         }
     }
 
-    $slot1= new ParkingSlot(1, "Available", false);
-    $slot2= new ParkingSlot(2, "Available", false);
-    $slot3= new ParkingSlot(3, "Wrong", false);
-    $slot4= new ParkingSlot(4, "Occupied", false);
 
-    $slots= array($slot1, $slot2, $slot3, $slot4);
-    $wrong_slots= array();
+    $notifications= $_SESSION['notifications'];
+    $deleted_notifications= $_SESSION['deleted_notifications'];
 
-    foreach($slots as $slot) {
-        if ($slot->slot_status=="Wrong") {
-            array_push($wrong_slots, $slot);
-        }
-    }
+    //if notification deleted --> delete only notifications
+    //if wrong slot added --> add notification
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //if button clicked delete corresponding notification
+        if (isset($_POST['submit'])) {
+            //delete the element by index
+            for ($i = 0; $i < count($notifications); $i++) {
+                if ($notifications[$i]->slot_id == $_POST['submit']) {
+                    unset($notifications[$i]);
+                    array_push($deleted_notifications, $notifications[$i]->slot_id);
+                }
+            }
+            $notifications= array_values($notifications); //rearrange notifications
+            $_SESSION['notifications']= $notifications;
+            $_SESSION['deleted_notifications']= $deleted_notifications;
+        } 
+      }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -94,7 +101,7 @@
     <?php include "AdminNavBar.html"?>
     <!-- Notifications -->
     <div class="row">
-        <?php foreach($wrong_slots as $slot):?>
+        <?php foreach($notifications as $notification):?>
         <div class="col">
             <!-- TODO: Add php -> loop through list of wrong parkings -->
             <div class="card">
@@ -103,13 +110,17 @@
                     <div class="heading">
                         <!-- TODO: Add php -> get information -->
                         <span>Slot number</span>
-                        <?php echo $slot->slot_id?>
+                        <span style="color: red;"><?php echo $notification->slot_id?></span>
                     </div>
                     <div class="heading">
                         <span>Time recoreded</span> 
                     </div>  
                 </div>
-                <div class="text-center" style="margin-bottom: 10px;"><button class="profile-button" type="button">Edit Slot</button></div>
+                <div class="text-center" style="margin-bottom: 20px;">
+                    <form method="POST">
+                        <button class="profile-button" type="submit" name="submit" value="<?php echo $notification->slot_id?>">Delete Notification</button>
+                    </form>
+                </div>
             </div>
         </div>
         <?php endforeach; ?>

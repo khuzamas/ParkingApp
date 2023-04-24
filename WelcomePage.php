@@ -1,3 +1,10 @@
+<?php session_start();?>
+<?php 
+    $notifications= array();
+    $deleted_notifications= array();
+    $_SESSION['notifications']= $notifications;
+    $_SESSION['deleted_notifications']= $deleted_notifications;
+?>
 <!DOCTYPE html>
 <html lang="en" >
 <head>

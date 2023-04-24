@@ -1,6 +1,7 @@
+<?php session_start();?>
 <!-- Variables -->
 <!-- 
-1. Parkings (class)
+1. Parking Slots (class)
 2. Total Parkings #
 3. Occupied Parkings #
 4. Available= total-occupied 
@@ -8,50 +9,120 @@
 -->
 <?php
 
-    $location= "Prince Mohammed Bin Fahd University"; #Get from parking lot?
+    $location= "Prince Mohammed Bin Fahd University";
+
+    //parking lot class
+    class ParkingLot {
+        public $parking_id;
+        public $parking_location;
+        public $parking_slots_num;
+        public $parking_available_slots_num;
+        public $parking_occupied_slots_num;
+
+        public function __construct($parking_id, $parking_location, $parking_slots_num, $parking_available_slots_num, $parking_occupied_slots_num) {
+            $this->parking_id= $parking_id;
+            $this->parking_location= $parking_location;
+            $this->parking_slots_num= $parking_slots_num;
+            $this->parking_available_slots_num= $parking_available_slots_num;
+            $this->parking_occupied_slots_num= $parking_occupied_slots_num;
+        }
+        public function updateSlots($slots) {
+            $number_of_occupied_slots= 0;
+            //get occupied slots number 
+            foreach($slots as $slot) {
+                if ($slot->slot_status=="Occupied" || $slot->slot_wrong==true) {
+                    $number_of_occupied_slots= ++$number_of_occupied_slots;
+                }
+            }
+            $this->parking_occupied_slots_num= $number_of_occupied_slots;
+            $this->parking_available_slots_num= $this->parking_slots_num-$number_of_occupied_slots;
+        }
+    }
+
+    $lot= new ParkingLot(1, "Prince Mohammed Bin Fahd University", 4, 4, 0);
 
     //parking slot class
     class ParkingSlot {
         public $slot_id;
         public $slot_status;
         public $slot_wrong;
-        public function __construct($slot_id, $slot_status, $slot_wrong) {
+        public $slot_parking_id;
+
+        public function __construct($slot_id, $slot_status, $slot_wrong, $slot_parking_id) {
             $this->slot_id= $slot_id;
             $this->slot_status= $slot_status;
             $this->slot_wrong= $slot_wrong;
+            $this->slot_parking_id= $slot_parking_id;
         }
     }
 
-    $slot1= new ParkingSlot(1, "Available", false);
-    $slot2= new ParkingSlot(2, "Available", false);
-    $slot3= new ParkingSlot(3, "Wrong", false);
-    $slot4= new ParkingSlot(4, "Occupied", false);
-
+    $slot1= new ParkingSlot(1, "Available", false, 1);
+    $slot2= new ParkingSlot(2, "Available", false, 1);
+    $slot3= new ParkingSlot(3, "Occupied", true, 1);
+    $slot4= new ParkingSlot(4, "Occupied", false, 1);
     $slots= array($slot1, $slot2, $slot3, $slot4);
-    $total_slots= count($slots);
-    $number_of_occupied_slots= 0;
 
-    //get occupied slots number 
-    foreach($slots as $slot) {
-        if ($slot->slot_status=="Occupied" || $slot->slot_status=="Wrong") {
-            $number_of_occupied_slots= ++$number_of_occupied_slots;
-        }
-    }
+    //FOR ORIGINAL SLOT COUNTING
+    //$total_slots= count($slots);
+    // $number_of_occupied_slots= 0;
+
+    // //get occupied slots number 
+    // foreach($slots as $slot) {
+    //     if ($slot->slot_status=="Occupied" || $slot->slot_status=="Wrong") {
+    //         $number_of_occupied_slots= ++$number_of_occupied_slots;
+    //     }
+    // }
+
+    //FOR METHOD 2 OF SLOT COUNTING
+    $lot->updateSlots($slots);
+    $total_slots= $lot->parking_slots_num;
+    $number_of_available_slots= $lot->parking_available_slots_num;
+    $number_of_occupied_slots= $lot->parking_occupied_slots_num;
 
     //get image src corrosponding to the status
     function getSlotImage($slot) {
         if ($slot->slot_status=="Available") {
             return "images/icon-car-large-green.png";
-        } else if ($slot->slot_status=="Occupied"){
-            return "images/icon-car-large-red.png";
-        } else {
+        } else if ($slot->slot_wrong==true){
             return "images/icon-car-large-black.png";
+        } else {
+            return "images/icon-car-large-red.png";
         }
     }
 
     //sending the slots array to other pages
     $_SESSION['slots']= $slots;
 
+    //sending notifications to other pages
+    //Notifications Class
+    class Notification {
+        public $slot_id;
+        public function __construct($slot_id) {
+            $this->slot_id= $slot_id;
+        }
+    }
+
+    //slots --> wrong slots --> notifications
+    $notifications= $_SESSION['notifications'];
+    $deleted_notifications= $_SESSION['deleted_notifications'];
+
+    foreach($slots as $slot) {
+        if ($slot->slot_wrong==true) {
+            $curr= new Notification($slot->slot_id);
+            if(!in_array($slot->slot_id, $deleted_notifications)
+                && !in_array($curr, $notifications)) {
+                array_push($notifications, $curr);
+            }
+        }
+    }
+
+    $_SESSION['notifications']= $notifications;
+
+    //start: empty
+    //add notification
+    //send
+    //update
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -103,20 +174,30 @@
         .slot {
             position: relative;
             overflow: hidden;
+            height: 183px;
+            width: 160px;
         }
         .side {
-            position: absolute;
             backface-visibility: hidden;
             transition: all .6s ease;
             height: auto;
-            margin: -50px 0 0 -50px;
-            top: 50%;
-            left: 50%;
+            /* margin: -50px 0 0 -50px; */
+            /* top: 50%;
+            left: 50%; */
+            position: absolute;
+            /* top: 50%;
+            left: 1%;
+            right: 1%; */
+        }
+        .side .front {
+            position: inherit;
+            /* margin: 0px; */
         }
         .back {
+            position: inherit;
             transform: rotateY(180deg);
             justify-content: center;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: Georgia, 'Times New Roman', Times, serif;
             font-weight: bold;
         }
         .slot:hover .front {
@@ -154,6 +235,7 @@
             align-items: center;
             flex-wrap: wrap;
             margin: 10px;
+            justify-content: space-between;
         }
         .widget-heading {
             opacity: .8;
@@ -171,7 +253,7 @@
             margin: 0%;
         }
         .widget-content-right {
-            margin-left: 120px;
+            margin: 5px;
         }
         .widget-numbers {
             font-weight: 700;
@@ -187,7 +269,7 @@
 <body>
     <!-- Nav Bar -->
     <?php include "AdminNavBar.html"?>
-    <div class="main row">
+    <div class="main row" style="margin-top: 40px">
         <div class="col">
             <!-- Parking Slots -->
             <div class="parking">
@@ -214,11 +296,47 @@
                                 <p>Time</p>
                             </div>
                         </td>
-                        <td><img src="<?php echo getSlotImage($slots[1])?>"></td>
+                        <td class="slot">
+                            <div class="side front">
+                                <img src="<?php echo getSlotImage($slots[1])?>">
+                            </div>
+                            <div class="side back">
+                                <!-- TODO: Add php -> get Id/Status/Time -->
+                                <div>
+                                    <p>ID: <?php echo $slots[1]->slot_id?></p>
+                                </div>
+                                <p><?php echo $slots[1]->slot_status?></p>
+                                <p>Time</p>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
-                        <td><img src="<?php echo getSlotImage($slots[2])?>"></td>
-                        <td><img src="<?php echo getSlotImage($slots[3])?>"></td>
+                        <td class="slot">
+                            <div class="side front">
+                                <img src="<?php echo getSlotImage($slots[2])?>">
+                            </div>
+                            <div class="side back">
+                                <!-- TODO: Add php -> get Id/Status/Time -->
+                                <div>
+                                    <p>ID: <?php echo $slots[2]->slot_id?></p>
+                                </div>
+                                <p><?php echo $slots[2]->slot_status?></p>
+                                <p>Time</p>
+                            </div>
+                        </td>
+                        <td class="slot">
+                            <div class="side front">
+                                <img src="<?php echo getSlotImage($slots[3])?>">
+                            </div>
+                            <div class="side back">
+                                <!-- TODO: Add php -> get Id/Status/Time -->
+                                <div>
+                                    <p>ID: <?php echo $slots[3]->slot_id?></p>
+                                </div>
+                                <p><?php echo $slots[3]->slot_status?></p>
+                                <p>Time</p>
+                            </div>
+                        </td>
                     </tr>
                     <tr class="street">
                         <td></td>
@@ -232,7 +350,7 @@
             </div>
         </div>
             
-        <!-- Information boxes -->
+        <!-- START: Information boxes -->
         <div class="col" style="margin-right: 25px;">
             <div class="card mb-3">
                 <div class="widget-content-wrapper text-white">
@@ -255,7 +373,7 @@
                     </div>
                     <div class="widget-content-right">
                         <div class="widget-numbers text-white">
-                            <span><?php echo $total_slots-$number_of_occupied_slots?></span>
+                            <span><?php echo $number_of_available_slots?></span>
                         </div>
                     </div>
                 </div>
