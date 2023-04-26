@@ -82,11 +82,12 @@
     //get image src corrosponding to the status
     function getSlotImage($slot) {
         if ($slot->slot_status=="Available") {
-            return "images/icon-car-large-green.png";
+            //<blockquote class="imgur-embed-pub" lang="en" data-id="a/xjPvlP2" data-context="false" ><a href="//imgur.com/a/xjPvlP2"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+            return "https://i.imgur.com/esrNHzV.png";
         } else if ($slot->slot_wrong==true){
-            return "images/icon-car-large-black.png";
+            return "https://i.imgur.com/wHCkug3.png";
         } else {
-            return "images/icon-car-large-red.png";
+            return "https://i.imgur.com/IyUtWA8.png";
         }
     }
 
