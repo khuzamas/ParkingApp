@@ -9,8 +9,6 @@
 -->
 <?php
 
-    $location= "Prince Mohammed Bin Fahd University";
-
     //parking lot class
     class ParkingLot {
         public $parking_id;
@@ -39,6 +37,7 @@
         }
     }
 
+    $location= "Prince Mohammed Bin Fahd University";
     $lot= new ParkingLot(1, "Prince Mohammed Bin Fahd University", 4, 4, 0);
 
     //parking slot class
@@ -47,19 +46,87 @@
         public $slot_status;
         public $slot_wrong;
         public $slot_parking_id;
+        public $slot_time;
 
-        public function __construct($slot_id, $slot_status, $slot_wrong, $slot_parking_id) {
+        public function __construct($slot_id, $slot_status, $slot_wrong, $slot_parking_id, $slot_time) {
             $this->slot_id= $slot_id;
             $this->slot_status= $slot_status;
             $this->slot_wrong= $slot_wrong;
             $this->slot_parking_id= $slot_parking_id;
+            $this->slot_time= $slot_time;
         }
     }
 
-    $slot1= new ParkingSlot(1, "Available", false, 1);
-    $slot2= new ParkingSlot(2, "Available", false, 1);
-    $slot3= new ParkingSlot(3, "Occupied", true, 1);
-    $slot4= new ParkingSlot(4, "Occupied", false, 1);
+    //Database
+    $servername = "parkingfinder.online";
+    $username = "parkinm4_khuzam";
+    $password = "DB_2023$";
+    $dbname= "parkinm4_SmartParkingSystem";
+
+    // Create connection
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+    // Check connection
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    echo "Connected successfully";
+
+    $sql = "SELECT ParkingS_ID, ParkingS_Status, ParkingS_Wrongparking, ParkingS_Time FROM `Parking Slot`";
+    $result = mysqli_query($conn, $sql);
+
+    //insert data into slot3 and slot4
+    $slot3= new ParkingSlot(0, "", false, 1, "0:0:0");
+    $slot4= new ParkingSlot(0, "", false, 1, "0:0:0");
+
+    if (mysqli_num_rows($result) > 0) {
+        // output data of each row
+        while($row = mysqli_fetch_assoc($result)) {
+            
+            if ($row["ParkingS_ID"]==1) {
+                $slot3->slot_id= $row["ParkingS_ID"];
+                if ($row["ParkingS_Status"]=="A") {
+                    $slot3->slot_status= "Available";
+                } else if ($row["ParkingS_Status"]=="O") {
+                    $slot3->slot_status= "Occupied";
+                } else if ($row["ParkingS_Status"]=="W") {
+                    $slot3->slot_status= "Wrong";
+                }
+                if ($row["ParkingS_Wrongparking"]=="T") {
+                    $slot3->slot_wrong= true;
+                } else if ($row["ParkingS_Wrongparking"]=="F") {
+                    $slot3->slot_wrong= false;
+                }
+                
+                $slot3->slot_parking_id= 1;
+                $slot3->slot_time= $row["ParkingS_Time"];
+            } else if ($row["ParkingS_ID"]==2) {
+                $slot4->slot_id= $row["ParkingS_ID"];
+                if ($row["ParkingS_Status"]=="A") {
+                    $slot4->slot_status= "Available";
+                } else if ($row["ParkingS_Status"]=="O") {
+                    $slot4->slot_status= "Occupied";
+                } else if ($row["ParkingS_Status"]=="W") {
+                    $slot4->slot_status= "Wrong";
+                }
+                if ($row["ParkingS_Wrongparking"]=="T") {
+                    $slot4->slot_wrong= true;
+                } else if ($row["ParkingS_Wrongparking"]=="F") {
+                    $slot4->slot_wrong= false;
+                }
+                $slot4->slot_parking_id= 1;
+                $slot4->slot_time= $row["ParkingS_Time"];
+            }
+        }
+    } else {
+        echo "0 results";
+    }
+    
+
+    $slot1= new ParkingSlot(1, "Available", false, 1, "0:0:0");
+    $slot2= new ParkingSlot(2, "Available", false, 1, "0:0:0");
+    // $slot3= new ParkingSlot(3, "Occupied", true, 1, "0:0:0");
+    // $slot4= new ParkingSlot(4, "Occupied", false, 1, "0:0:0");
     $slots= array($slot1, $slot2, $slot3, $slot4);
 
     //FOR ORIGINAL SLOT COUNTING
@@ -82,9 +149,8 @@
     //get image src corrosponding to the status
     function getSlotImage($slot) {
         if ($slot->slot_status=="Available") {
-            //<blockquote class="imgur-embed-pub" lang="en" data-id="a/xjPvlP2" data-context="false" ><a href="//imgur.com/a/xjPvlP2"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
             return "https://i.imgur.com/esrNHzV.png";
-        } else if ($slot->slot_wrong==true){
+        } else if ($slot->slot_status=="Wrong"){
             return "https://i.imgur.com/wHCkug3.png";
         } else {
             return "https://i.imgur.com/IyUtWA8.png";
@@ -104,25 +170,27 @@
     }
 
     //slots --> wrong slots --> notifications
-    $notifications= $_SESSION['notifications'];
+    $notifications= array();
     $deleted_notifications= $_SESSION['deleted_notifications'];
 
     foreach($slots as $slot) {
+        
         if ($slot->slot_wrong==true) {
             $curr= new Notification($slot->slot_id);
-            if(!in_array($slot->slot_id, $deleted_notifications)
+            if ($deleted_notifications==null) {
+                array_push($notifications, $curr);
+            } else if (!in_array($slot->slot_id, $deleted_notifications)
                 && !in_array($curr, $notifications)) {
                 array_push($notifications, $curr);
             }
         }
+        
+        
     }
 
     $_SESSION['notifications']= $notifications;
 
-    //start: empty
-    //add notification
-    //send
-    //update
+    
     
 ?>
 <!DOCTYPE html>
@@ -395,13 +463,13 @@
             <div class="col a">
                 <!-- Location -->
                 <div class="location">
-                    <a><img src="images/icon-location.png"/><?php echo $location?></a>
+                    <a><img src="https://i.imgur.com/3eC1Y8h.png"/><?php echo $location?></a>
                 </div>
                 <!-- Lengend -->
                 <div class="legend">
-                    <a><img src="images/icon-car-small-green.png"/>Available</a>
-                    <a><img src="images/icon-car-small-red.png"/>Occupied</a>
-                    <a><img src="images/icon-car-small-black.png"/>Wrong Parking</a>
+                    <a><img src="https://i.imgur.com/lJ676z6.png"/>Available</a>
+                    <a><img src="https://i.imgur.com/QDYcza1.png"/>Occupied</a>
+                    <a><img src="https://i.imgur.com/ithcVAv.png"/>Wrong Parking</a>
                 </div>
             </div>
         </div>

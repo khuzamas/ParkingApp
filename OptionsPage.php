@@ -65,8 +65,8 @@
         <!-- Admin -->
         <div class="col">
             <div id="btnpostion1">
-                <a href="LogIn.php">
-                    <button class="shadow__btn" href="LogIn.php">
+                <a href="AdminHome.php">
+                    <button class="shadow__btn" href="AdminHome.php">
                         Admin
                     </button>
                 </a>

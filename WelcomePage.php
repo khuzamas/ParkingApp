@@ -1,8 +1,6 @@
 <?php session_start();?>
 <?php 
-    $notifications= array();
     $deleted_notifications= array();
-    $_SESSION['notifications']= $notifications;
     $_SESSION['deleted_notifications']= $deleted_notifications;
 ?>
 <!DOCTYPE html>
@@ -122,7 +120,7 @@
   <div class="hero">
     <div class="hero__bg">
       <picture>
-        <img src="images/background.png"> 
+        <img src="https://i.imgur.com/hdWhXaK.png"> 
       </picture>
     </div>
     <div class="hero__cnt">

@@ -303,10 +303,10 @@
             <ul class="navbar-nav ml-auto">
                 <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
                 <li class="nav-item active" onclick="userHome()">
-                    <a class="nav-link" href="#"><i class="fas fa-tachometer-alt"><img src="images/icon-dashboard.png"/></i>Home</a>
+                    <a class="nav-link" href="#"><i class="fas fa-tachometer-alt"><img src="https://i.imgur.com/pmGLQJM.png"/></i>Home</a>
                 </li>
                 <li class="nav-item" onclick="userInfo()">
-                    <a class="nav-link" href="#"><i class="far fa-address-book"><img src="images/icon-information.png"/></i>Information</a>
+                    <a class="nav-link" href="#"><i class="far fa-address-book"><img src="https://i.imgur.com/XMy00mz.png"/></i>Information</a>
                 </li>
             </ul>
         </div>
@@ -316,7 +316,7 @@
         <div class="col">
             <!-- Location -->
             <div class="location">
-                <a><img src="images/icon-location.png"/>Location</a>
+                <a><img src="https://i.imgur.com/3eC1Y8h.png"/>Location</a>
             </div>
             <!-- Parking Grid -->
             <div class="parking">
@@ -330,12 +330,12 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td><img src="images/icon-car-large-green.png"></td>
-                        <td><img src="images/icon-car-large-green.png"></td>
+                        <td><img src="https://i.imgur.com/esrNHzV.png"></td>
+                        <td><img src="https://i.imgur.com/esrNHzV.png"></td>
                     </tr>
                     <tr>
-                        <td><img src="images/icon-car-large-green.png"></td>
-                        <td><img src="images/icon-car-large-green.png"></td>
+                        <td><img src="https://i.imgur.com/esrNHzV.png"></td>
+                        <td><img src="https://i.imgur.com/esrNHzV.png"></td>
                     </tr>
                     <tr class="street">
                         <td></td>
