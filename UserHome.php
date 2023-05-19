@@ -24,6 +24,9 @@
             margin-right: 10px;
         }
         /*----------bootstrap-navbar-css------------*/
+        .navbar {
+            padding: 0 !important;
+        }
         .navbar-logo{
             padding: 15px;
             color: #fff;
@@ -378,6 +381,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <?php include "TrafficHours.html"?>
         </div>
     </div>
 </body>

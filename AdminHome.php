@@ -9,6 +9,7 @@
 -->
 <?php
 
+    // TODO: PARKING LOT DATABASE
     //parking lot class
     class ParkingLot {
         public $parking_id;
@@ -123,22 +124,11 @@
     }
     
 
-    $slot1= new ParkingSlot(1, "Available", false, 1, "0:0:0");
-    $slot2= new ParkingSlot(2, "Available", false, 1, "0:0:0");
+    $slot1= new ParkingSlot(3, "Available", false, 1, "0:0:0");
+    $slot2= new ParkingSlot(4, "Available", false, 1, "0:0:0");
     // $slot3= new ParkingSlot(3, "Occupied", true, 1, "0:0:0");
     // $slot4= new ParkingSlot(4, "Occupied", false, 1, "0:0:0");
     $slots= array($slot1, $slot2, $slot3, $slot4);
-
-    //FOR ORIGINAL SLOT COUNTING
-    //$total_slots= count($slots);
-    // $number_of_occupied_slots= 0;
-
-    // //get occupied slots number 
-    // foreach($slots as $slot) {
-    //     if ($slot->slot_status=="Occupied" || $slot->slot_status=="Wrong") {
-    //         $number_of_occupied_slots= ++$number_of_occupied_slots;
-    //     }
-    // }
 
     //FOR METHOD 2 OF SLOT COUNTING
     $lot->updateSlots($slots);
@@ -160,38 +150,6 @@
     //sending the slots array to other pages
     $_SESSION['slots']= $slots;
 
-    //sending notifications to other pages
-    //Notifications Class
-    class Notification {
-        public $slot_id;
-        public function __construct($slot_id) {
-            $this->slot_id= $slot_id;
-        }
-    }
-
-    //slots --> wrong slots --> notifications
-    $notifications= array();
-    $deleted_notifications= $_SESSION['deleted_notifications'];
-
-    foreach($slots as $slot) {
-        
-        if ($slot->slot_wrong==true) {
-            $curr= new Notification($slot->slot_id);
-            if ($deleted_notifications==null) {
-                array_push($notifications, $curr);
-            } else if (!in_array($slot->slot_id, $deleted_notifications)
-                && !in_array($curr, $notifications)) {
-                array_push($notifications, $curr);
-            }
-        }
-        
-        
-    }
-
-    $_SESSION['notifications']= $notifications;
-
-    
-    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -199,8 +157,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta http-equiv='refresh' content='5'> -->
     <title>Admin Home</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"> -->
+    </script>
     <style>
         div {
             margin: auto;
@@ -333,6 +295,7 @@
         .a , .parking{
             box-shadow: 0 0.46875rem 2.1875rem rgba(4,9,20,.03), 0 0.9375rem 1.40625rem rgba(4,9,20,.03), 0 0.25rem 0.53125rem rgba(4,9,20,.05), 0 0.125rem 0.1875rem rgba(4,9,20,.03);
         }
+
     </style>
 </head>
 <body>
@@ -362,7 +325,7 @@
                                     <p>ID: <?php echo $slots[0]->slot_id?></p>
                                 </div>
                                 <p><?php echo $slots[0]->slot_status?></p>
-                                <p>Time</p>
+                                <p>Time: <?php echo $slots[0]->slot_time?></p>
                             </div>
                         </td>
                         <td class="slot">
@@ -375,7 +338,7 @@
                                     <p>ID: <?php echo $slots[1]->slot_id?></p>
                                 </div>
                                 <p><?php echo $slots[1]->slot_status?></p>
-                                <p>Time</p>
+                                <p>Time: <?php echo $slots[1]->slot_time?></p>
                             </div>
                         </td>
                     </tr>
@@ -390,7 +353,7 @@
                                     <p>ID: <?php echo $slots[2]->slot_id?></p>
                                 </div>
                                 <p><?php echo $slots[2]->slot_status?></p>
-                                <p>Time</p>
+                                <p>Time: <?php echo $slots[2]->slot_time?></p>
                             </div>
                         </td>
                         <td class="slot">
@@ -403,7 +366,7 @@
                                     <p>ID: <?php echo $slots[3]->slot_id?></p>
                                 </div>
                                 <p><?php echo $slots[3]->slot_status?></p>
-                                <p>Time</p>
+                                <p>Time: <?php echo $slots[3]->slot_time?></p>
                             </div>
                         </td>
                     </tr>
@@ -418,9 +381,8 @@
                 </table>
             </div>
         </div>
-            
-        <!-- START: Information boxes -->
         <div class="col" style="margin-right: 25px;">
+            <!-- START: Information boxes -->
             <div class="card mb-3">
                 <div class="widget-content-wrapper text-white">
                     <div class="widget-content-left">
@@ -460,19 +422,29 @@
                     </div>
                 </div>
             </div>
-            <div class="col a">
-                <!-- Location -->
-                <div class="location">
-                    <a><img src="https://i.imgur.com/3eC1Y8h.png"/><?php echo $location?></a>
-                </div>
-                <!-- Lengend -->
-                <div class="legend">
-                    <a><img src="https://i.imgur.com/lJ676z6.png"/>Available</a>
-                    <a><img src="https://i.imgur.com/QDYcza1.png"/>Occupied</a>
-                    <a><img src="https://i.imgur.com/ithcVAv.png"/>Wrong Parking</a>
-                </div>
+            <div class="row a">
+            <!-- Location -->
+            <div class="location">
+                <a><img src="https://i.imgur.com/3eC1Y8h.png"/><?php echo $location?></a>
+            </div>
+            <!-- Lengend -->
+            <div class="legend">
+                <a><img src="https://i.imgur.com/lJ676z6.png"/>Available</a>
+                <a><img src="https://i.imgur.com/QDYcza1.png"/>Occupied</a>
+                <a><img src="https://i.imgur.com/ithcVAv.png"/>Wrong Parking</a>
             </div>
         </div>
-    </div>  
+        </div>
+        <!-- chart -->
+        <div class="col">
+            <?php include "TrafficHours.html"?>
+        </div>
+            
+            
+        
+    </div> 
+    
+    <!-- Traffic Hours Chart -->
+    
 </body>
 </html>
