@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>User Home</title>
     <style>
+        * {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
         /* Nav Bar style */
         @import url('https://fonts.googleapis.com/css?family=Roboto');
 
@@ -214,7 +217,6 @@
         .main {
             display:inline-grid;
             width: -webkit-fill-available;
-            font-family:Georgia, 'Times New Roman', Times, serif;
             justify-content: center;
         }
         /* parking grid */
@@ -268,7 +270,6 @@
             position: inherit;
             transform: rotateY(180deg);
             justify-content: center;
-            font-family: Georgia, 'Times New Roman', Times, serif;
             font-weight: bold;
         }
         .slot:hover .front {

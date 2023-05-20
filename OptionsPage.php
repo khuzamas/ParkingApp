@@ -10,9 +10,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
-        /* * {
-            font-family: ;
-        } */
+        * {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
         body{
             margin: 0;
             padding: 0;
@@ -27,6 +27,9 @@
         .row {
             text-align: center;
             margin-top: 100px;
+            display: flex;
+            justify-content: space-around;
+
         }
         .col {
             width: 400px;
@@ -56,7 +59,7 @@
         .shadow__btn {
             /* background: rgb(111, 0, 255); */
             background: #87b37a;
-            box-shadow: 0 0 20px #9ce37d;
+            box-shadow: 0 0 10px #9ce37d;
         }
   
         .shadow__btn:hover {
@@ -67,7 +70,7 @@
 </head>
 <body>
     <div class="row">
-        <p style="font-size:xx-large;">Welcome to Parking Finder Application!</p>
+        <p style="font-size:xx-large;">Welcome to Parking Finder!</p>
         <p>Please Choose One of The Following . . .</p>
     </div>
     <div class="row">
@@ -84,7 +87,7 @@
         </div>
         <!-- User -->
         <div class="col">
-            <p>I am an</p>
+            <p>I am a</p>
             <div id="btnpostion2" style="width: 400px">
                 <a href="UserHome.php">
                     <button class="shadow__btn" href="UserHome.php">

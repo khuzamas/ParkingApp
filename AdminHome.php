@@ -194,13 +194,15 @@
     <!-- <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"> -->
     </script>
     <style>
+        * {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
         div {
             margin: auto;
         }
         .main {
             display:inline-grid;
             width: -webkit-fill-available;
-            font-family:Georgia, 'Times New Roman', Times, serif;
             margin-top: 5%;
         }
         .location {
@@ -260,7 +262,6 @@
             position: inherit;
             transform: rotateY(180deg);
             justify-content: center;
-            font-family: Georgia, 'Times New Roman', Times, serif;
             font-weight: bold;
         }
         .slot:hover .front {
