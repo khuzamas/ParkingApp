@@ -178,6 +178,8 @@
             padding: 10px;
             align-items: center; 
         }
+
+        /* parking grid */
         table {
             border-collapse: separate;
             border-spacing: 15px;
@@ -303,84 +305,25 @@
     <?php include "AdminNavBar.html"?>
     <div class="main row" style="margin-top: 40px">
         <div class="col">
-            <!-- Parking Slots -->
+            <!-- DYNAMIC Parking grid -->
+            <script>
+                function table() {
+                    const xhttp= new XMLHttpRequest();
+                    xhttp.onload= function() {
+                        document.getElementById("parking").innerHTML= this.responseText;
+                    }
+                    xhttp.open("GET", "ParkingGrid.php");
+                    xhttp.send();
+                }
+
+                setInterval(function(){table();}, 1);
+            </script>
             <div class="parking">
-                <table>
-                    <tr class="street">
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="street">
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td class="slot">
-                            <div class="side front">
-                                <img src="<?php echo getSlotImage($slots[0])?>">
-                            </div>
-                            <div class="side back">
-                                <!-- TODO: Add php -> get Id/Status/Time -->
-                                <div>
-                                    <p>ID: <?php echo $slots[0]->slot_id?></p>
-                                </div>
-                                <p><?php echo $slots[0]->slot_status?></p>
-                                <p>Time: <?php echo $slots[0]->slot_time?></p>
-                            </div>
-                        </td>
-                        <td class="slot">
-                            <div class="side front">
-                                <img src="<?php echo getSlotImage($slots[1])?>">
-                            </div>
-                            <div class="side back">
-                                <!-- TODO: Add php -> get Id/Status/Time -->
-                                <div>
-                                    <p>ID: <?php echo $slots[1]->slot_id?></p>
-                                </div>
-                                <p><?php echo $slots[1]->slot_status?></p>
-                                <p>Time: <?php echo $slots[1]->slot_time?></p>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="slot">
-                            <div class="side front">
-                                <img src="<?php echo getSlotImage($slots[2])?>">
-                            </div>
-                            <div class="side back">
-                                <!-- TODO: Add php -> get Id/Status/Time -->
-                                <div>
-                                    <p>ID: <?php echo $slots[2]->slot_id?></p>
-                                </div>
-                                <p><?php echo $slots[2]->slot_status?></p>
-                                <p>Time: <?php echo $slots[2]->slot_time?></p>
-                            </div>
-                        </td>
-                        <td class="slot">
-                            <div class="side front">
-                                <img src="<?php echo getSlotImage($slots[3])?>">
-                            </div>
-                            <div class="side back">
-                                <!-- TODO: Add php -> get Id/Status/Time -->
-                                <div>
-                                    <p>ID: <?php echo $slots[3]->slot_id?></p>
-                                </div>
-                                <p><?php echo $slots[3]->slot_status?></p>
-                                <p>Time: <?php echo $slots[3]->slot_time?></p>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="street">
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="street">
-                        <td></td>
-                        <td></td>
-                    </tr>
+                <table id="parking">
+                
                 </table>
             </div>
-        </div>
+        </div>  
         <div class="col" style="margin-right: 25px;">
             <!-- START: Information boxes -->
             <div class="card mb-3">
