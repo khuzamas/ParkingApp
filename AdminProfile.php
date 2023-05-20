@@ -18,7 +18,7 @@
     echo "Connected successfully";
 
     //get user information
-    $admin_email= $_SESSION['admin_email'];
+    $admin_email= 'khuzam@mail.com';
     $sql = "SELECT * FROM `Admin`";
     $result = mysqli_query($conn, $sql);
 
@@ -60,12 +60,16 @@
             // $stmt =("UPDATE `Admin` SET ('Admin_FNAME= $admin_fname', 'Admin_LNAME= $_POST[admin_lname]', 'Admin_Username= $admin_username', 
             //         'Admin_Phone= $admin_phone', 'Admin_Address= $admin_address', 'Admin_Postcode= $admin_postcode', 
             //         'Admin_City= $admin_city', 'Admin_Country= $admin_country') WHERE Admin_ID='1'");
-            // $stmt =("UPDATE `Admin` SET Admin_LNAME= 'shu' WHERE Admin_ID='1'");
+            $sql =("UPDATE `Admin` SET Admin_LNAME= ? WHERE Admin_ID='1'");
+            $stmt= mysqli_stmt_init($conn);
+            mysqli_stmt_prepare($stmt, $sql);
+            mysqli_stmt_bind_param($stmt, "s", $admin_lname);
+            mysqli_stmt_execute($stmt);
             
-            $query= ("UPDATE `Admin` SET Admin_LNAME= ? WHERE Admin_ID='1'");
-            $stmt = $mysqli->prepare($query);
-            $stmt->bind_param("ss", $admin_lname);
-            $stmt->execute();
+            // $query= ("UPDATE `Admin` SET Admin_LNAME= ? WHERE Admin_ID='1'");
+            // $stmt = $mysqli->prepare($query);
+            // $stmt->bind_param("ss", $admin_lname);
+            // $stmt->execute();
 
             mysqli_close($conn);
             // mysqli_query($stmt, [$admin_fname, $admin_lname, $admin_username, $admin_phone, $admin_address, $admin_postcode, $admin_city, $admin_country]);

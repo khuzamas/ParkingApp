@@ -325,7 +325,12 @@
         }
 
         .a , .parking{
+            /* margin-left: 20px;
+            padding-left: 10px; */
             box-shadow: 0 0.46875rem 2.1875rem rgba(4,9,20,.03), 0 0.9375rem 1.40625rem rgba(4,9,20,.03), 0 0.25rem 0.53125rem rgba(4,9,20,.05), 0 0.125rem 0.1875rem rgba(4,9,20,.03);
+        }
+        .location {
+            text-align: center;
         }
 
     </style>
@@ -334,8 +339,40 @@
     <!-- Nav Bar -->
     <?php include "AdminNavBar.html"?>
     <div class="main row" style="margin-top: 40px">
+        
+        <!-- START: Information boxes --> 
+        <div class="col" style="margin-left: 25px;">
+            <script>
+                function infoBox() {
+                    const xhttp= new XMLHttpRequest();
+                    xhttp.onload= function() {
+                        document.getElementById("info-box").innerHTML= this.responseText;
+                    }
+                    xhttp.open("GET", "InfoBox.php");
+                    xhttp.send();
+                }
+
+                setInterval(function(){infoBox();}, 1);
+            </script>
+            <div id="info-box">
+                
+            </div>
+
+            <div class="row a">
+                <!-- Location -->
+                <div class="location">
+                    <a><img src="https://i.imgur.com/3eC1Y8h.png"/><?php echo $location?></a>
+                </div>
+                <!-- Lengend -->
+                <div class="legend">
+                    <a><img src="https://i.imgur.com/lJ676z6.png"/>Available</a>
+                    <a><img src="https://i.imgur.com/QDYcza1.png"/>Occupied</a>
+                    <a><img src="https://i.imgur.com/ithcVAv.png"/>Wrong Parking</a>
+                </div>
+            </div>
+        </div>
+        <!-- DYNAMIC Parking grid -->
         <div class="col">
-            <!-- DYNAMIC Parking grid -->
             <script>
                 function table() {
                     const xhttp= new XMLHttpRequest();
@@ -353,61 +390,7 @@
                 
                 </table>
             </div>
-        </div>  
-        <div class="col" style="margin-right: 25px;">
-            <!-- START: Information boxes -->
-            <div class="card mb-3">
-                <div class="widget-content-wrapper text-white">
-                    <div class="widget-content-left">
-                        <div class="widget-heading">Total Parkings</div>
-                        <div class="widget-subheading">Number of slots</div>
-                    </div>
-                    <div class="widget-content-right">
-                        <div class="widget-numbers text-white">
-                            <span><?php echo $total_slots?></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card mb-3">
-                <div class="widget-content-wrapper text-white">
-                    <div class="widget-content-left">
-                        <div class="widget-heading">Avaialble Parkings</div>
-                        <div class="widget-subheading">Number of free slots</div>
-                    </div>
-                    <div class="widget-content-right">
-                        <div class="widget-numbers text-white">
-                            <span><?php echo $number_of_available_slots?></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card mb-3">
-                <div class="widget-content-wrapper text-white">
-                    <div class="widget-content-left">
-                        <div class="widget-heading">Occupied Parkings</div>
-                        <div class="widget-subheading">Number of occupied slots</div>
-                    </div>
-                    <div class="widget-content-right">
-                        <div class="widget-numbers text-white">
-                            <span><?php echo $number_of_occupied_slots?></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row a">
-            <!-- Location -->
-            <div class="location">
-                <a><img src="https://i.imgur.com/3eC1Y8h.png"/><?php echo $location?></a>
-            </div>
-            <!-- Lengend -->
-            <div class="legend">
-                <a><img src="https://i.imgur.com/lJ676z6.png"/>Available</a>
-                <a><img src="https://i.imgur.com/QDYcza1.png"/>Occupied</a>
-                <a><img src="https://i.imgur.com/ithcVAv.png"/>Wrong Parking</a>
-            </div>
-        </div>
-        </div>
+        </div> 
         <!-- chart -->
         <div class="col">
             <?php include "TrafficHours.html"?>
