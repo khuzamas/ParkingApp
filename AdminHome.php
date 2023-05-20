@@ -73,10 +73,13 @@
     }
     echo "Connected successfully";
 
+    //get slots from database
     $sql = "SELECT ParkingS_ID, ParkingS_Status, ParkingS_Wrongparking, ParkingS_Time FROM `Parking Slot`";
     $result = mysqli_query($conn, $sql);
 
     //insert data into slot3 and slot4
+    $slot1= new ParkingSlot(0, "", false, 1, "0:0:0");
+    $slot2= new ParkingSlot(0, "", false, 1, "0:0:0");
     $slot3= new ParkingSlot(0, "", false, 1, "0:0:0");
     $slot4= new ParkingSlot(0, "", false, 1, "0:0:0");
 
@@ -85,6 +88,39 @@
         while($row = mysqli_fetch_assoc($result)) {
             
             if ($row["ParkingS_ID"]==1) {
+                $slot1->slot_id= $row["ParkingS_ID"];
+                if ($row["ParkingS_Status"]=="A") {
+                    $slot1->slot_status= "Available";
+                } else if ($row["ParkingS_Status"]=="O") {
+                    $slot1->slot_status= "Occupied";
+                } else if ($row["ParkingS_Status"]=="W") {
+                    $slot1->slot_status= "Wrong";
+                }
+                if ($row["ParkingS_Wrongparking"]=="T") {
+                    $slot1->slot_wrong= true;
+                } else if ($row["ParkingS_Wrongparking"]=="F") {
+                    $slo1->slot_wrong= false;
+                }
+                
+                $slot1->slot_parking_id= 1;
+                $slot1->slot_time= $row["ParkingS_Time"];
+            } else if ($row["ParkingS_ID"]==2) {
+                $slot2->slot_id= $row["ParkingS_ID"];
+                if ($row["ParkingS_Status"]=="A") {
+                    $slot2->slot_status= "Available";
+                } else if ($row["ParkingS_Status"]=="O") {
+                    $slot2->slot_status= "Occupied";
+                } else if ($row["ParkingS_Status"]=="W") {
+                    $slot2->slot_status= "Wrong";
+                }
+                if ($row["ParkingS_Wrongparking"]=="T") {
+                    $slot2->slot_wrong= true;
+                } else if ($row["ParkingS_Wrongparking"]=="F") {
+                    $slot2->slot_wrong= false;
+                }
+                $slot2->slot_parking_id= 2;
+                $slot2->slot_time= $row["ParkingS_Time"];
+            } else if ($row["ParkingS_ID"]==3) {
                 $slot3->slot_id= $row["ParkingS_ID"];
                 if ($row["ParkingS_Status"]=="A") {
                     $slot3->slot_status= "Available";
@@ -98,10 +134,9 @@
                 } else if ($row["ParkingS_Wrongparking"]=="F") {
                     $slot3->slot_wrong= false;
                 }
-                
-                $slot3->slot_parking_id= 1;
+                $slot3->slot_parking_id= 3;
                 $slot3->slot_time= $row["ParkingS_Time"];
-            } else if ($row["ParkingS_ID"]==2) {
+            } else if ($row["ParkingS_ID"]==4) {
                 $slot4->slot_id= $row["ParkingS_ID"];
                 if ($row["ParkingS_Status"]=="A") {
                     $slot4->slot_status= "Available";
@@ -115,7 +150,7 @@
                 } else if ($row["ParkingS_Wrongparking"]=="F") {
                     $slot4->slot_wrong= false;
                 }
-                $slot4->slot_parking_id= 1;
+                $slot4->slot_parking_id= 4;
                 $slot4->slot_time= $row["ParkingS_Time"];
             }
         }
@@ -123,11 +158,6 @@
         echo "0 results";
     }
     
-
-    $slot1= new ParkingSlot(3, "Available", false, 1, "0:0:0");
-    $slot2= new ParkingSlot(4, "Available", false, 1, "0:0:0");
-    // $slot3= new ParkingSlot(3, "Occupied", true, 1, "0:0:0");
-    // $slot4= new ParkingSlot(4, "Occupied", false, 1, "0:0:0");
     $slots= array($slot1, $slot2, $slot3, $slot4);
 
     //FOR METHOD 2 OF SLOT COUNTING

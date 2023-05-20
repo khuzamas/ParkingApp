@@ -217,7 +217,9 @@
             font-family:Georgia, 'Times New Roman', Times, serif;
             justify-content: center;
         }
+        /* parking grid */
         table {
+            border-collapse: separate;
             border-spacing: 15px;
             border: 5px solid white;
             margin: 5px;
@@ -239,56 +241,41 @@
             border: 3px solid white;
         }
 
-        /* Information style */
-        /*box*/
-        .col {
-            display: grid;
-        }
-        .card {
+        /* card style */
+        .slot {
             position: relative;
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-            word-wrap: break-word;
-            /* background-color: #4c2c72!important; */
-            background-image: linear-gradient(-20deg,#2b5876 0%,#4e4376 100%)!important;
-            background-clip: border-box;
-            border: 1px solid rgba(26,54,126,.125);
-            border-radius: 0.25rem;
-            padding: 10px;
-            width: 380px;
-            box-shadow: 0 0.46875rem 2.1875rem rgba(4,9,20,.03), 0 0.9375rem 1.40625rem rgba(4,9,20,.03), 0 0.25rem 0.53125rem rgba(4,9,20,.05), 0 0.125rem 0.1875rem rgba(4,9,20,.03);
+            overflow: hidden;
+            height: 183px;
+            width: 160px;
         }
-        .widget-content-wrapper {
-            display: flex;
-            flex: 1;
-            position: relative;
-            align-items: center;
-            flex-wrap: wrap;
-            margin: 10px;
+        .side {
+            backface-visibility: hidden;
+            transition: all .6s ease;
+            height: auto;
+            /* margin: -50px 0 0 -50px; */
+            /* top: 50%;
+            left: 50%; */
+            position: absolute;
+            /* top: 50%;
+            left: 1%;
+            right: 1%; */
         }
-        .widget-heading {
-            opacity: .8;
-            font-weight: 700;
-            box-sizing: border-box;
-            display: block;
+        .side .front {
+            position: inherit;
+            /* margin: 0px; */
         }
-        .widget-subheading {
-            opacity: .5;
-            box-sizing: border-box;
+        .back {
+            position: inherit;
+            transform: rotateY(180deg);
+            justify-content: center;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-weight: bold;
         }
-        .widget-content-left {
-            display: block;
-            box-sizing: border-box;
-            margin: 0%;
+        .slot:hover .front {
+            transform: rotateY(-180deg);
         }
-        .widget-content-right {
-            margin-left: 120px;
-        }
-        .widget-numbers {
-            font-weight: 700;
-            font-size: 1.8rem;
-            display: block;
+        .slot:hover .back {
+            transform: rotate(0);
         }
 
 
@@ -321,33 +308,22 @@
             <div class="location">
                 <a><img src="https://i.imgur.com/3eC1Y8h.png"/>Location</a>
             </div>
-            <!-- Parking Grid -->
+            <!-- DYNAMIC Parking grid -->
+            <script>
+                function table() {
+                    const xhttp= new XMLHttpRequest();
+                    xhttp.onload= function() {
+                        document.getElementById("parking").innerHTML= this.responseText;
+                    }
+                    xhttp.open("GET", "ParkingGrid.php");
+                    xhttp.send();
+                }
+
+                setInterval(function(){table();}, 1);
+            </script>
             <div class="parking">
-                <table>
-                    <tr class="street">
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="street">
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td><img src="https://i.imgur.com/esrNHzV.png"></td>
-                        <td><img src="https://i.imgur.com/esrNHzV.png"></td>
-                    </tr>
-                    <tr>
-                        <td><img src="https://i.imgur.com/esrNHzV.png"></td>
-                        <td><img src="https://i.imgur.com/esrNHzV.png"></td>
-                    </tr>
-                    <tr class="street">
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="street">
-                        <td></td>
-                        <td></td>
-                    </tr>
+                <table id="parking">
+                
                 </table>
             </div>
         </div>
