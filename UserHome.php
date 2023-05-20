@@ -278,6 +278,58 @@
             transform: rotate(0);
         }
 
+        /*box*/
+        .col {
+            display: grid;
+        }
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            /* background-color: #4c2c72!important; */
+            background-image: linear-gradient(-20deg,#2b5876 0%,#4e4376 100%)!important;
+            background-clip: border-box;
+            border: 1px solid rgba(26,54,126,.125);
+            border-radius: 0.25rem;
+            padding: 10px;
+            width: 380px;
+            box-shadow: 0 0.46875rem 2.1875rem rgba(4,9,20,.03), 0 0.9375rem 1.40625rem rgba(4,9,20,.03), 0 0.25rem 0.53125rem rgba(4,9,20,.05), 0 0.125rem 0.1875rem rgba(4,9,20,.03);
+        }
+        .widget-content-wrapper {
+            display: flex;
+            flex: 1;
+            position: relative;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 10px;
+            justify-content: space-between;
+        }
+        .widget-heading {
+            opacity: .8;
+            font-weight: 700;
+            box-sizing: border-box;
+            display: block;
+        }
+        .widget-subheading {
+            opacity: .5;
+            box-sizing: border-box;
+        }
+        .widget-content-left {
+            display: block;
+            box-sizing: border-box;
+            margin: 0%;
+        }
+        .widget-content-right {
+            margin: 5px;
+        }
+        .widget-numbers {
+            font-weight: 700;
+            font-size: 1.8rem;
+            display: block;
+        }
+
 
     </style>
     <script src="nav.js"></script>
@@ -330,32 +382,21 @@
     </div>
     <!-- UserHome: Information -->
     <div class="main-2" style="display: none;" id="userInfo">
-        <div class="card mt-3 mb-3">
-            <div class="widget-content-wrapper text-white">
-                <div class="widget-content-left">
-                    <!-- TODO: Add php -> get information -->
-                    <div class="widget-heading">Avaialble Parkings</div>
-                    <div class="widget-subheading">Number of free slots</div>
-                </div>
-                <div class="widget-content-right">
-                    <div class="widget-numbers text-white">
-                        <span>4</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card mb-3">
-            <div class="widget-content-wrapper text-white">
-                <div class="widget-content-left">
-                    <!-- TODO: Add php -> get information -->
-                    <div class="widget-heading">Occupied Parkings</div>
-                    <div class="widget-subheading">Number of occupied slots</div>
-                </div>
-                <div class="widget-content-right">
-                    <div class="widget-numbers text-white">
-                        <span>4</span>
-                    </div>
-                </div>
+        <script>
+            function infoBox() {
+                const xhttp= new XMLHttpRequest();
+                xhttp.onload= function() {
+                    document.getElementById("info-box").innerHTML= this.responseText;
+                }
+                xhttp.open("GET", "InfoBox.php");
+                xhttp.send();
+            }
+
+            setInterval(function(){infoBox();}, 1);
+        </script>
+        <div class="col" style="margin-top: 40px;">
+            <div id="info-box">
+                
             </div>
         </div>
         <div class="row">
