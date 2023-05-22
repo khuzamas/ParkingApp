@@ -78,7 +78,7 @@
         <div class="col">
             <p>I am an</p>
             <div id="btnpostion1" style="width: 400px">
-                <a href="AdminHome.php">
+                <a href="LogIn.php">
                     <button class="shadow__btn" href="AdminHome.php">
                         Admin
                     </button>
