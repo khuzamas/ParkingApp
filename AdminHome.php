@@ -71,7 +71,6 @@
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
-    echo "Connected successfully";
 
     //get slots from database
     $sql = "SELECT ParkingS_ID, ParkingS_Status, ParkingS_Wrongparking, ParkingS_Time FROM `Parking Slot`";
@@ -244,15 +243,13 @@
         }
         .side {
             backface-visibility: hidden;
+            -webkit-transition: all .6s ease;
+            -moz-transition: all .6s ease;
+            -ms-transition: all .6s ease;
+            -o-transition: all .6s ease;
             transition: all .6s ease;
             height: auto;
-            /* margin: -50px 0 0 -50px; */
-            /* top: 50%;
-            left: 50%; */
             position: absolute;
-            /* top: 50%;
-            left: 1%;
-            right: 1%; */
         }
         .side .front {
             position: inherit;
@@ -260,18 +257,28 @@
         }
         .back {
             position: inherit;
+            -webkit-transform: rotateY(180deg);
+            -moz-transform: rotateY(180deg);
+            -ms-transform: rotateY(180deg);
+            -o-transform: rotateY(180deg);
             transform: rotateY(180deg);
             justify-content: center;
             font-weight: bold;
         }
         .slot:hover .front {
+            -webkit-transform: rotate(-180deg);
+            -moz-transform: rotate(-180deg);
+            -ms-transform: rotate(-180deg);
+            -o-transform: rotate(-180deg);
             transform: rotateY(-180deg);
         }
         .slot:hover .back {
+            -webkit-transform: rotate(0);
+            -moz-transform: rotate(0);
+            -ms-transform: rotate(0);
+            -o-transform: rotate(0);
             transform: rotate(0);
         }
-        
-        
 
         /*box*/
         .col {
@@ -375,13 +382,16 @@
         <!-- DYNAMIC Parking grid -->
         <div class="col">
             <script>
+
                 function table() {
                     const xhttp= new XMLHttpRequest();
                     xhttp.onload= function() {
-                        document.getElementById("parking").innerHTML= this.responseText;
+                        document.getElementById('parking').innerHTML= this.responseText;
                     }
                     xhttp.open("GET", "ParkingGrid.php");
+                    
                     xhttp.send();
+                    
                 }
 
                 setInterval(function(){table();}, 1);

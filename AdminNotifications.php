@@ -14,7 +14,11 @@
     }
 
     //add deleted notifications to array
-    $deleted_notifications= $_SESSION['deleted_notifications'];
+    if ($_SESSION['deleted_notifications']!=null) {
+        $deleted_notifications= $_SESSION['deleted_notifications'];
+    }else {
+        $deleted_notifications= [];
+    }
 
     //get wrong parkings from database
     //Database

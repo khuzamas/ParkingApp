@@ -15,10 +15,9 @@
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
-    echo "Connected successfully";
 
     //get user information
-    $admin_email= 'khuzam@mail.com';
+    $admin_email= $_SESSION["admin_email"];
     $sql = "SELECT * FROM `Admin`";
     $result = mysqli_query($conn, $sql);
 
@@ -35,6 +34,7 @@
     while($row = mysqli_fetch_assoc($result)) {
         $admin_fname= $row["Admin_FName"];
         $admin_lname= $row["Admin_LName"];
+        $admin_email= $row["Admin_Email"];
         $admin_username= $row["Admin_Username"];
         $admin_phone= $row["Admin_Phone"];
         $admin_address= $row["Admin_Address"];
@@ -49,7 +49,7 @@
         if (isset($_POST['submit'])) {
             $admin_fname= $_POST['admin_fname'];
             $admin_lname= $_POST['admin_lname'];
-            echo $admin_lname;
+            $admin_email= $_POST['admin_email'];
             $admin_username= $_POST['admin_username'];
             $admin_phone= $_POST['admin_phone'];
             $admin_address= $_POST['admin_address'];
@@ -57,22 +57,15 @@
             $admin_city= $_POST['admin_city'];
             $admin_country= $_POST['admin_country'];
 
-            // $stmt =("UPDATE `Admin` SET ('Admin_FNAME= $admin_fname', 'Admin_LNAME= $_POST[admin_lname]', 'Admin_Username= $admin_username', 
-            //         'Admin_Phone= $admin_phone', 'Admin_Address= $admin_address', 'Admin_Postcode= $admin_postcode', 
-            //         'Admin_City= $admin_city', 'Admin_Country= $admin_country') WHERE Admin_ID='1'");
-            $sql =("UPDATE `Admin` SET Admin_LNAME= ? WHERE Admin_ID='1'");
+            $sql =("UPDATE `Admin` SET Admin_FNAME= ?, Admin_LNAME= ?, Admin_Email= ?, Admin_Username= ?, 
+                    Admin_Phone= ?, Admin_Address= ?, Admin_Postcode= ?, 
+                    Admin_City= ?, Admin_Country= ? WHERE Admin_ID='1'");
             $stmt= mysqli_stmt_init($conn);
             mysqli_stmt_prepare($stmt, $sql);
-            mysqli_stmt_bind_param($stmt, "s", $admin_lname);
+            mysqli_stmt_bind_param($stmt, "sssssssss", $admin_fname, $admin_lname, $admin_email, $admin_username, $admin_phone, $admin_address, $admin_postcode, $admin_city, $admin_country);
             mysqli_stmt_execute($stmt);
-            
-            // $query= ("UPDATE `Admin` SET Admin_LNAME= ? WHERE Admin_ID='1'");
-            // $stmt = $mysqli->prepare($query);
-            // $stmt->bind_param("ss", $admin_lname);
-            // $stmt->execute();
 
             mysqli_close($conn);
-            // mysqli_query($stmt, [$admin_fname, $admin_lname, $admin_username, $admin_phone, $admin_address, $admin_postcode, $admin_city, $admin_country]);
         } 
     }
 ?>

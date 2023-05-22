@@ -1,3 +1,38 @@
+<?php
+    function clear() {
+
+    }
+
+    //Database
+    $servername = "parkingfinder.online";
+    $username = "parkinm4_khuzam";
+    $password = "DB_2023$";
+    $dbname= "parkinm4_SmartParkingSystem";
+
+    // Create connection
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+    // Check connection
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    $sql = "SELECT ParkingS_ID FROM `Parking Slot`";
+    $result = mysqli_query($conn, $sql);
+
+    // UPDATE `Admin` SET Admin_FNAME= ?, Admin_LNAME= ?, Admin_Email= ?, Admin_Username= ?, 
+    //                 Admin_Phone= ?, Admin_Address= ?, Admin_Postcode= ?, 
+    //                 Admin_City= ?, Admin_Country= ? WHERE Admin_ID='1'
+
+    while($row = mysqli_fetch_assoc($result)) {
+        $sql =("UPDATE  `Parking Slot` SET ParkingS_Status= 'A' , ParkingS_Time='00:00:00' WHERE ParkingS_ID=?");
+        $stmt= mysqli_stmt_init($conn);
+        mysqli_stmt_prepare($stmt, $sql);
+        mysqli_stmt_bind_param($stmt, "s", $row["ParkingS_ID"]);
+        mysqli_stmt_execute($stmt);
+    }
+    
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -79,27 +114,10 @@
         <div class="col">
             <div class="card">
                 <div class="widget-content-wrapper text-white">
-                    <div class="widget-heading">Report Issue</div>
-                    <select form="" id="" autofocus>
-                        <option value="Electric">Electric Issue</option>
-                        <option value="Output">(Incorrect) Output Issue</option>
-                        <option value="Maintenace">Regular Maintenance</option>
-                        <option value="Hardware">Hardware Accident/Failure</option>
-                    </select>
-                    <div style="margin-top: 10px;"><label>Comments</label><input type="text" class="form-control" placeholder="Comments" value=""></div>
-                    <div class="text-center" style="margin-top: 10px;"><button class="profile-button" type="button">Submit</button></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <div class="card">
-                <div class="widget-content-wrapper text-white">
                         <!-- TODO: Add php -> function to clear data -->
                         <div class="widget-heading">Clear All Slots</div>
                         <div class="widget-subheading">Reset the data of all slots to: available parking</div>
-                    <div class="text-center" style="margin-top: 10px;"><button class="profile-button" type="button">Submit</button></div>
+                    <div class="text-center" style="margin-top: 10px;"><button class="profile-button" type="button" onclick="<?php clear()?>">Submit</button></div>
                 </div>
             </div>
         </div>

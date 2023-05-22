@@ -1,7 +1,56 @@
+<?php session_start();?>
+<?php 
+    $deleted_notifications= array();
+    $_SESSION['deleted_notifications']= $deleted_notifications;
+
+    //Database
+    $servername = "parkingfinder.online";
+    $username = "parkinm4_khuzam";
+    $password = "DB_2023$";
+    $dbname= "parkinm4_SmartParkingSystem";
+
+    // Create connection
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+    // Check connection
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    $sql = "SELECT * FROM `Admin`";
+    $result = mysqli_query($conn, $sql);
+
+    $admin_db_email="";
+    $admin_db_password="";
+
+    while($row = mysqli_fetch_assoc($result)) {
+        $admin_db_email= $row["Admin_Email"];
+        $admin_db_password= $row["Admin_Password"];
+    }
+
+    $admin_email= "";
+    $admin_password= "";
+    $match= false;
+
+    //if button is clicked -> check that admin information is correct and then go to home page
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['submit'])) {
+            $admin_email= $_POST['email'];
+            $admin_password= $_POST['pswd'];
+        } 
+    }
+
+    if ($admin_db_email==$admin_email && $admin_db_password==$admin_password) {
+        $_SESSION["user_email"]= $admin_db_email;
+        header("Location: AdminHome.php");
+        exit();
+    }
+?>
 <!DOCTYPE html>
 <html lang="en" >
 <head>
-  <title>Sign up / Login Form</title>
+  <title>Sign In</title>
+
   <style>
     body{
         margin: 0;
@@ -12,6 +61,7 @@
         min-height: 100vh;
         font-family: 'Jost', sans-serif;
         background: linear-gradient(to bottom, #0f0c29, #4B296B, #4C2C72);
+        
     }
     .main{
         width: 350px;
@@ -92,6 +142,17 @@
     #chk:checked ~ .signup label{
         transform: scale(.6);
     }
+    #pass{
+ 
+        text-align: center;
+    }
+
+    #plink{
+        text-decoration: none;
+        color:white;
+
+    }
+
   </style>
 </head>
 <body>
@@ -106,25 +167,16 @@
 	<div class="main">  	
 		<input type="checkbox" id="chk" aria-hidden="true">
 			<div class="signup">
-				<form>
-                    <label for="chk" aria-hidden="true">Sign up</label>
-                    <input type="text" name="txt" placeholder="ID" required="">
-					<input type="text" name="txt" placeholder="User name" required="">
-					<input type="password" name="pswd" placeholder="Password" required="">
-					<!-- TODO: Add php -> create user function -->
-                    <button>Sign up</button>
+				<form method="POST">
+					<label for="chk" aria-hidden="true">Sign in </label>
+					<input type="text" name="email" placeholder="Email" required="">
+                    <input type="password" name="pswd" placeholder="Password" required="">
+                    <button class="profile-button" type="submit" name="submit">Sign In</button>
+                    <!-- <button href="AdminHome.php">Sign in</button> -->
 				</form>
 			</div>
-			<div class="login">
-				<form>
-					<label for="chk" aria-hidden="true">Login</label>
-					<input type="text" name="email" placeholder="User name" required="">
-					<input type="password" name="pswd" placeholder="Password" required="">
-					<!-- TODO: Add php -> log in function -->
-                    <button href="AdminHome.php">Login</button>
-				</form>
-			</div>
-	</div>
+			
+        </div>
 </body> 
 </html>
 </body>

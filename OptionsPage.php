@@ -1,6 +1,6 @@
 <?php session_start();?>
 <?php
-    $admin_email="khuzamshu@gmail.com";
+    $admin_email="khuzam@mail.com";
     $_SESSION['admin_email']= $admin_email;
 ?>
 <!DOCTYPE html>

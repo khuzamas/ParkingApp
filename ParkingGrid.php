@@ -20,7 +20,6 @@
         }
     }
 ?>
-
 <table>
     <tr class="street">
         <td></td>
@@ -37,16 +36,16 @@
             <?php foreach($rows as $row) : ?>
                 <?php if ($row["ParkingS_ID"]=="3" || $row["ParkingS_ID"]=="4"): ?>
                     <td class="slot">
-                        <div class="side front">
+                        <div class="side front" id="front">
                             <img src="<?php echo getSlotImage($row["ParkingS_Status"]);?>">
                         </div>
-                        <div class="side back">
-                        <div>
-                            <p>ID: <?php echo $row["ParkingS_ID"]?></p>
+                        <div class="side back" id="back">
+                            <div>
+                                <p>ID: <?php echo $row["ParkingS_ID"]?></p>
+                            </div>
+                            <p><?php echo $row["ParkingS_Status"] ?></p>
+                            <p>Time: <?php echo $row["ParkingS_Time"] ?></p>
                         </div>
-                        <p><?php echo $row["ParkingS_Status"] ?></p>
-                        <p>Time: <?php echo $row["ParkingS_Time"] ?></p>
-                    </div>
                     </td>
                 <? endif ?>
             <?php endforeach; ?>

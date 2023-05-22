@@ -91,11 +91,15 @@ function userHome() {
 	var x = document.getElementById("userHome");
 	var xx = document.getElementById("userInfo");
 	x.style.display = "block";
+	document.getElementById('user_home').className= "nav-item active"
 	xx.style.display= "none";
+	document.getElementById('user_info').className= "nav-item"
 }
 function userInfo() {
 	var x = document.getElementById("userHome");
 	var xx = document.getElementById("userInfo");
 	x.style.display = "none";
+	document.getElementById('user_info').className= "nav-item active"
 	xx.style.display= "block";
+	document.getElementById('user_home').className= "nav-item"
 }
